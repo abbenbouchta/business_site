@@ -18,7 +18,8 @@ Main Features
     'data': [
        'views/sale_order_view.xml',
        'views/account_invoice_view.xml',
-       'report/sale_order_report_template.xml'
+       'report/sale_order_report_template.xml',
+       'report/report_invoice.xml'
     ],
 
     'demo': [],
