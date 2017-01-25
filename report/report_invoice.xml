@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="report_invoice_document_business_site" inherit_id="account.report_invoice_document">
+
+      	<xpath expr="//address[@t-field='o.partner_id']" position="after">
+             <span t-if="o.type == 'out_invoice'">
+                  <span t-if="o.partner_id.code"><strong>Code Client: </strong><span t-field="o.partner_id.code"/><p/> </span>
+                  <strong>N° Dossier: </strong><span t-field="o.business_id"/><p/>
+                  <strong>Chantier: </strong><span t-field="o.site_id"/><p/>
+                  <strong>Bon de commande:: </strong><span t-field="o.origin"/><p/>
+             </span>
+      	</xpath>
+
+        <xpath expr="//div[@t-if='o.date_invoice']" position="replace">
+             <div class="col-xs-3" t-if="o.period">
+                    <strong>Période: </strong>
+                    <p t-field="o.period"/>
+
+                </div>
+                <div class="col-xs-3" t-if="o.user_id">
+                    <strong>Responsable: </strong>
+                    <p t-field="o.user_id.name"/>
+
+                </div>
+        </xpath>
+
+        <xpath expr="//p[@t-if='o.comment']" position="replace">
+        </xpath>
+
+        <xpath expr="//p[@t-if='o.payment_term_id']" position="replace">
+        </xpath>
+
+        <xpath expr="//p[@t-if='o.fiscal_position_id.note']" position="replace">
+            <h4><span t-if="o.type == 'out_invoice'">P.O DIRECTION</span></h4>
+        </xpath>
+
+         <xpath expr="//t[@t-foreach='o._get_tax_amount_by_group()']" position="replace">
+             <t t-foreach="o._get_tax_amount_by_group()" t-as="amount_by_group">
+                                <tr>
+                                    <td><span t-esc="amount_by_group[0] if len(o.tax_line_ids) > 1 else (o.tax_line_ids.tax_id.description or o.tax_line_ids.tax_id.name)"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="amount_by_group[1]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </t>
+        </xpath>
+
+
+  	</template>
+</odoo>
