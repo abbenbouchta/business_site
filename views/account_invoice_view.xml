@@ -11,6 +11,9 @@
                     <field name="business_id"/>
                     <field name="site_id"/>
                 </xpath>
+                <xpath expr="//field[@name='date_invoice']" position='after'>
+                      <field name="period" />
+                </xpath>
             </field>
         </record>
 
@@ -22,6 +25,7 @@
                 <xpath expr="//field[@name='partner_id']" position='after'>
                       <field name="business_id" />
                 </xpath>
+
             </field>
         </record>
 
