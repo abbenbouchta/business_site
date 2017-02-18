@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <template id="report_bordereau_document">
+            <t t-call="report.external_layout">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                <div class="page">
+                    <h2><div class="text-center">Bordereau d'envoi</div></h2>
+                    <div class="hidden"><p></p></div>
+                    <div class="row">
+                        <div name="invoice_address" class="col-xs-4 col-xs-offset-7 pull-right">
+                            <strong >Client: </strong>
+                            <address t-field="o.partner_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                        </div>
+                    </div>
+                    <div class="row mt32 mb32">
+                        <div>
+                            <span>Madame,Monsieur</span><p/>
+                            <span>Veuillez trouver notre document suivant ci joint:</span><p/>
+
+                        </div>
+                    </div>
+                    <table class="o_event_table table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">FA.N°/Attachement N°</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Montant DH TTC</th>
+                                <th class="text-center">Nombre d'exemplaire</th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <tr>
+                                <td class="text-center" ><span t-esc='(o.number or "_") + "/"+ (o.ref_attachment or "_")'/></td>
+                                <td class="text-center"><span t-field="o.date_invoice"/></td>
+                                <td class="text-center"><span t-field="o.amount_total"/></td>
+                                <td class="text-center"><span t-field="o.nbr_exemplaire"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="hidden"><p></p></div>
+                    <table class="o_event_table table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Dossier N°</th>
+                                <th class="text-center">Chantier ou lieu d'intervention</th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <tr>
+                                <td class="text-left" ><span t-esc='o.business_id'/></td>
+                                <td class="text-center" ><span t-esc='o.site_id'/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-xs-offset-7 text-right col-xs-4 pull-right " style="position:absolute;top:725px; page-break-inside: avoid;">
+                            <strong><span t-if="o.type == 'out_invoice'">P.O DIRECTION</span></strong>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="report_bordereau">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="business_site.report_bordereau_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

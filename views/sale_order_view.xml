@@ -6,10 +6,19 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                  <xpath expr='//field[@name="client_order_ref"]' position='replace'>
+                  </xpath>
 
                 <xpath expr='//field[@name="partner_id"]' position='after'>
-                    <field name="business_id"/>
-                    <field name="site_id"/>
+                     <field name="client_order_ref" string="Numéro client" />
+
+
+                </xpath>
+
+                 <xpath expr='//field[@name="payment_term_id"]' position='before'>
+                     <field name="business_id"/>
+                     <field name="site_id"/>
+                     <field name="period" />
                 </xpath>
 
                 <xpath expr='//field[@name="note"]' position='replace'>
@@ -18,10 +27,28 @@
                 <xpath expr='//notebook' position='before'>
                       <field name="note" placeholder="Ajout des différentes conditions de vente de votre entreprise"/>
                 </xpath>
+                <xpath expr='//field[@name="user_id"]' position='before'>
+                      <field name="create_uid" readonly="1"/>
+                </xpath>
+                <xpath expr='//field[@name="user_id"]' position='attributes'>
+                    <attribute name="string">Responsable</attribute>
+                </xpath>
 
             </field>
         </record>
 
+
+        <record id="view_quotation_tree_site" model="ir.ui.view">
+            <field name="name">view.quotation.tree.site</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position='after'>
+                      <field name="business_id" />
+                      <field name="create_uid" />
+                </xpath>
+            </field>
+        </record>
        <record id="view_order_tree_site" model="ir.ui.view">
             <field name="name">view.order.tree.site</field>
             <field name="model">sale.order</field>
@@ -29,6 +56,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position='after'>
                       <field name="business_id" />
+                      <field name="create_uid" />
                 </xpath>
             </field>
         </record>
@@ -42,10 +70,10 @@
                 <xpath expr="//field[@name='partner_id']" position='after'>
                       <field name="business_id" />
                       <field name="site_id" />
-
                 </xpath>
                 <xpath expr="//filter[@name='customer']" position='after'>
                      <filter name="business_id" string="Dossier" domain="[]" context="{'group_by':'business_id'}"/>
+                      <filter name="user_id" string="Responsable" domain="[]" context="{'group_by':'user_id'}"/>
                 </xpath>
 
             </field>

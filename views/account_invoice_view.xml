@@ -8,11 +8,20 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <xpath expr='//field[@name="partner_id"]' position='after'>
-                    <field name="business_id"/>
-                    <field name="site_id"/>
+                     <field name="code_customer" readonly="1" />
+                    <field name="business_id" readonly="1"/>
+                    <field name="site_id" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position='attributes'>
+                      <attribute name="readonly">True</attribute>
                 </xpath>
                 <xpath expr="//field[@name='date_invoice']" position='after'>
-                      <field name="period" />
+                      <field name="period" readonly="1"/>
+                       <field name="ref_attachment"/>
+                      <field name="nbr_exemplaire"/>
+                </xpath>
+                 <xpath expr="//field[@name='fiscal_position_id']" position='before'>
+                      <field name="create_uid" readonly="1"/>
                 </xpath>
             </field>
         </record>
@@ -24,6 +33,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position='after'>
                       <field name="business_id" />
+                     <field name="create_uid" />
                 </xpath>
 
             </field>
